@@ -16,11 +16,44 @@
         <h1>Welcome to POS System</h1>
         {% block content %}
         {% endblock %}
+
+        <!-- static table`-->
+        <table>
+            <thead>
+                <tr>
+                    <td>ID</td>
+                    <td>Item</td>
+                    <td>Quantity</td>
+                    <td>Price</td>
+                </tr>
+            </thead>
+                <?php
+                // Assuming $data is an array of associative arrays containing SQL data
+                foreach ($data as $row) {
+                    echo '<tr>';
+                    echo '<td>' . $row['ID'] . '</td>';
+                    echo '<td>' . $row['Item'] . '</td>';
+                    echo '<td>' . $row['Quantity'] . '</td>';
+                    echo '<td>' . $row['Price'] . '</td>';
+                    echo '</tr>';
+                }
+                ?>
+            </tbody>
+        </table>
     </div>
+
+
+
+
     <div id="dynamic-content">
     <!-- dynamic content goes here-->
     </div>
     <script>
+        
+
+
+
+
         // Javascript code for dynamically inserting data
         // placeholder below
         const data = [
@@ -43,7 +76,13 @@
 
 
     </script>
+    
 
+
+
+
+        
+ 
 
 </body>
 </html>
