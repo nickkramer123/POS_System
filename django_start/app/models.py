@@ -5,10 +5,15 @@ from django.db import models
 
 class InventoryItem(models.Model):
     # add fields
-    name = models.CharField(max_length=100)
+    item_id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=200)
     quantity = models.IntegerField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    # Add other fields as needed from your inventory database
+
+
+    class Meta:
+        managed = False  # Tell Django not to manage this table's creation
+        db_table = 'items'  # The real table name in your DB
 
     def __str__(self):
         return self.name

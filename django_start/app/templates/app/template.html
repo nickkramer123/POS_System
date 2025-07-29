@@ -22,22 +22,24 @@
             <thead>
                 <tr>
                     <td>ID</td>
-                    <td>Item</td>
+                    <td>Name</td>
                     <td>Quantity</td>
                     <td>Price</td>
                 </tr>
             </thead>
-                <?php
-                // Assuming $data is an array of associative arrays containing SQL data
-                foreach ($data as $row) {
-                    echo '<tr>';
-                    echo '<td>' . $row['ID'] . '</td>';
-                    echo '<td>' . $row['Item'] . '</td>';
-                    echo '<td>' . $row['Quantity'] . '</td>';
-                    echo '<td>' . $row['Price'] . '</td>';
-                    echo '</tr>';
-                }
-                ?>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>{{ item.item_id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>${{ item.price }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4">No items found</td>
+                </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>
