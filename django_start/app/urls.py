@@ -20,7 +20,7 @@ from . import views
 
 
 urlpatterns = [
-    path("", views.index, name="index"),
-    path("admin/", admin.site.urls),
+    path("", views.template, name="template"), # connects template function in views to template.html
+    path("admin/", admin.site.urls), # not sure what this does yet
 
 ]
