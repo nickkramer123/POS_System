@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POS System</title>
+    <style>
+        /*Styles here*/
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Welcome to POS System</h1>
+        {% block content %}
+        {% endblock %}
+    </div>
+    <div id="dynamic-content">
+    <!-- dynamic content goes here-->
+    </div>
+    <script>
+        // Javascript code for dynamically inserting data
+        // placeholder below
+        const data = [
+        { column1: 'Value1', column2: 'Value2', column3: 'Value3' },
+        { column1: 'Value4', column2: 'Value5', column3: 'Value6' }];
+    
+
+        const tableBody = document.querySelector('#dynamic-content');
+        data.forEach(rowData => {
+            const row = document.createElement('div');
+            row.innerHTML = `
+                <p>Column 1: ${rowData.column1}</p>
+                <p>Column 2: ${rowData.column2}</p>
+                <p>Column 3: ${rowData.column3}</p>
+            `;
+            tableBody.appendChild(row);
+        });
+
+
+
+
+    </script>
+
+
+</body>
+</html>
