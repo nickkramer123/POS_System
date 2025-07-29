@@ -8,7 +8,7 @@ def setup_database():
     # Create the items table  
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS items (
-        id INTEGER PRIMARY KEY,
+        item_id INTEGER PRIMARY KEY,
         item TEXT NOT NULL,
         price REAL NOT NULL,
         quantity INTEGER NOT NULL
@@ -17,7 +17,7 @@ def setup_database():
     conn.commit()
     conn.close()
     print("Database setup complete with items table created.")
-    
+
 def populate_database():
     conn = sqlite3.connect('inventory.db')
     cursor = conn.cursor()
@@ -26,9 +26,9 @@ def populate_database():
         reader = csv.DictReader(csvfile)
         for row in reader:
             cursor.execute('''
-                INSERT INTO items(id, item, price, quantity)
+                INSERT INTO items(item_id, item, price, quantity)
                 VALUES (?, ?, ?, ?)
-            ''', (int(row['id']), row['item'], float(row['price']), int(row['quantity'])))
+            ''', (int(row['item_id']), row['item'], float(row['price']), int(row['quantity'])))
 
     conn.commit()
     conn.close()

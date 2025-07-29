@@ -1,8 +1,8 @@
 import sqlite3
 # Using item class makes it simpler to manage items
 class Item:
-    def __init__(self, id, name, price, quantity):
-        self.id = id
+    def __init__(self, item_id, name, price, quantity):
+        self.item_id = item_id
         self.name = name
         self.price = price
         self.quantity = quantity
@@ -53,7 +53,7 @@ class Cart:
 def find_item_by_id(item_id):
     conn = sqlite3.connect('inventory.db')
     cursor = conn.cursor()
-    cursor.execute('SELECT * FROM items WHERE id = ?', (item_id,)) #id will be unique
+    cursor.execute('SELECT * FROM items WHERE item_id = ?', (item_id,)) #id will be unique
     item_tuple = cursor.fetchone()
     conn.close()
     item_obj = Item(*item_tuple) if item_tuple else None
