@@ -1,8 +1,21 @@
 import sqlite3
 import csv
+import os
+
+
+# Get the directory this script is in
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+DB_PATH = os.path.abspath(os.path.join(BASE_DIR, '..', 'inventory.db'))
+CSV_PATH = os.path.abspath(os.path.join(BASE_DIR, '..', 'inventory.csv'))
+print("Database will be created at:", DB_PATH)
+print("CSV data will be read from:", CSV_PATH)
+
+
+
 def setup_database():
     # Create a new SQLite database
-    conn = sqlite3.connect('inventory.db')
+    conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
 
     # Create the items table  
@@ -19,10 +32,10 @@ def setup_database():
     print("Database setup complete with items table created.")
 
 def populate_database():
-    conn = sqlite3.connect('inventory.db')
+    conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     # Populate the items table with data from inventory.csv
-    with open('inventory.csv', newline='') as csvfile:
+    with open(CSV_PATH, newline='') as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
             cursor.execute('''
@@ -33,3 +46,7 @@ def populate_database():
     conn.commit()
     conn.close()
     print("Database setup complete and items table populated.")
+
+if __name__ == "__main__":
+    setup_database()
+    populate_database()

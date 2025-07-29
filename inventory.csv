@@ -1,4 +1,4 @@
-id,item,price,quantity
+item_id,item,price,quantity
 1,Apple,0.99,120
 2,Banana,0.59,80
 3,Orange,0.79,100
