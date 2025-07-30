@@ -22,7 +22,7 @@
             <thead>
                 <tr>
                     <td>ID</td>
-                    <td>Name</td>
+                    <td>Item</td>
                     <td>Quantity</td>
                     <td>Price</td>
                 </tr>
@@ -31,9 +31,9 @@
                 {% for item in items %}
                 <tr>
                     <td>{{ item.item_id }}</td>
-                    <td>{{ item.name }}</td>
-                    <td>{{ item.quantity }}</td>
-                    <td>${{ item.price }}</td>
+                    <td>{{ item.item }}</td>
+                    <td>{{ item.price }}</td>
+                    <td>${{ item.quantity }}</td>
                 </tr>
                 {% empty %}
                 <tr>

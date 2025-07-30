@@ -6,9 +6,9 @@ from .models import Items
 
 
 def index(request):
-    return HttpResponse("Hello, world. You're at the polls index.")
+    return HttpResponse("Hello, world. You're at the xyz.")
 
 def template(request):
     items = Items.objects.all()
-    print(items)
+    print("Items exist?", bool(items))  # FALSE
     return render(request, 'app/template.html', {'items': items})

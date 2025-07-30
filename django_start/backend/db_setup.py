@@ -4,10 +4,12 @@ import os
 
 
 # Get the directory this script is in
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+from pathlib import Path
 
-DB_PATH = os.path.abspath(os.path.join(BASE_DIR, '..', 'inventory.db'))
-CSV_PATH = os.path.abspath(os.path.join(BASE_DIR, '..', 'inventory.csv'))
+BASE_DIR = Path(__file__).resolve().parents[1]
+DB_PATH = BASE_DIR / 'inventory.db'
+CSV_PATH = BASE_DIR / 'inventory.csv'
+
 print("Database will be created at:", DB_PATH)
 print("CSV data will be read from:", CSV_PATH)
 
@@ -34,6 +36,8 @@ def setup_database():
 def populate_database():
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
+    cursor.execute("DELETE FROM items")
+
     # Populate the items table with data from inventory.csv
     with open(CSV_PATH, newline='') as csvfile:
         reader = csv.DictReader(csvfile)
