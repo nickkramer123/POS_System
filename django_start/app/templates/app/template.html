@@ -8,6 +8,22 @@
     <title>POS System</title>
     <style>
         /*Styles here*/
+    .button {
+        border: none;
+        color: white;
+        padding: 10.75px 24px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 12px;
+        margin: 3px 1.5px;
+        cursor: pointer;
+    }
+    .button1 {background-color: #555;}
+    .button2 {background-color: #555;}
+    .button3 {background-color: #555;}
+    .button4 {background-color: #555;}
+
     </style>
 </head>
 
@@ -23,8 +39,8 @@
                 <tr>
                     <td>ID</td>
                     <td>Item</td>
-                    <td>Quantity</td>
                     <td>Price</td>
+                    <td>Quantity</td>
                 </tr>
             </thead>
             <tbody>
@@ -32,8 +48,8 @@
                 <tr>
                     <td>{{ item.item_id }}</td>
                     <td>{{ item.item }}</td>
-                    <td>{{ item.price }}</td>
-                    <td>${{ item.quantity }}</td>
+                    <td>${{ item.price }}</td>
+                    <td>{{ item.quantity }}</td>
                 </tr>
                 {% empty %}
                 <tr>
@@ -42,6 +58,12 @@
                 {% endfor %}
             </tbody>
         </table>
+        <button class="button button1" onclick="">Add Item</button>
+        <button class="button button2" onclick="">Remove Item</button>
+        <button class="button button3" onclick="">X Clear</button>
+        <button class="button button4" onclick="">✓ Tender</button>
+
+
     </div>
 
 
