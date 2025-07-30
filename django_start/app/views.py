@@ -10,4 +10,5 @@ def index(request):
 
 def template(request):
     items = Items.objects.all()
+    print(items)
     return render(request, 'app/template.html', {'items': items})
