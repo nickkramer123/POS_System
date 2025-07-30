@@ -20,6 +20,10 @@ def setup_database():
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
 
+    cursor.execute('''
+    DROP TABLE IF EXISTS items
+    ''')
+    
     # Create the items table  
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS items (
@@ -27,6 +31,24 @@ def setup_database():
         item TEXT NOT NULL,
         price REAL NOT NULL,
         quantity INTEGER NOT NULL
+    )
+    ''')
+
+    cursor.execute ('''
+    CREATE TABLE IF NOT EXISTS transactions (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        price REAL NOT NULL,
+        timestamp TEXT NOT NULL
+    )
+    ''')
+
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS transaction_items (
+        transaction_id INTEGER,
+        item_id INTEGER,
+        quantity INTEGER NOT NULL,
+        price REAL NOT NULL,
+        FOREIGN KEY (transaction_id) REFERENCES transactions (id)
     )
     ''')
     conn.commit()
