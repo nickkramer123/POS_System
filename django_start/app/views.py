@@ -1,27 +1,25 @@
 from django.shortcuts import render
-from backend.inventory import Cart, find_item_by_id
 
 # Create your views here.
 from django.http import HttpResponse
-from .models import Items
+from .models import Items, Transactions, TransactionItems
 
 
 def index(request):
     return HttpResponse("Hello, world. You're at the xyz.")
 
 def template(request):
+    # get value from searchbar
+
+
+
     items = Items.objects.all()
-    print("Items exist?", bool(items))  # FALSE
-    return render(request, 'app/template.html', {'items': items})
+    transactions = Transactions.objects.all()
+    transactionsItems = TransactionItems.objects.all()
+    return render(request, 'app/template.html', {'items': items, 'transactions': transactions, 'transactionItems': transactionsItems})
 
-def search_item(request):
-    query = request.GET.get('query')
 
-# When cart is stored in a session, it looks like this:
-# request.session['cart'] = [
-#           {'item_id': 1, 'quantity': 2},
-        #   {'item_id': 2, 'quantity': 1},
-#           ...]
-
-# To use cart in views, you get data from the session, then reconstruct the Cart object
-
+def getID(request):
+    query = request.GET.get('search_query', '')
+    print("user searched for: ", query)
+    return query
