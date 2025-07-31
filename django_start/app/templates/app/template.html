@@ -24,25 +24,36 @@
     .button3 {background-color: #555;}
     .button4 {background-color: #555;}
 
+
+    .table-container {
+        display: flex;
+        gap: 40px; /* space between tables */
+    }
+
+    table {
+        border-collapse: collapse;
+        width: 300px;
+    }
+
+    th, td {
+        border: 1px solid black;
+        padding: 8px;
+    }
+
+
     </style>
 </head>
 
 <body>
+    <header>
+        <h1>Welcome to out POS System!</h1>
+    </header>
     <!-- SEARCH BAR-->
-    <div class="topnav">
-        <form method="get" action="{% url 'template' %}">
-            <input type="text" id="searchBar" name="search_query" placeholder="Search by ID" onkeyup="SearchBar()">
-            <input type="submit" value="Submit Search">
-        </form>
-    </div>
     
-    <div class="container">
-        <h1>Welcome to POS System</h1>
-        {% block content %}
-        {% endblock %}
-
-        <!-- static table`-->
+    <div class="table-container">
+    <div>
         <table>
+            <caption>Inventory</caption>
             <thead>
                 <tr>
                     <td>ID</td>
@@ -66,8 +77,40 @@
                 {% endfor %}
             </tbody>
         </table>
-      
-        
+        <!--SEARCHBAR FOR ID-->
+        <form method="get" action="{% url 'template' %}">
+            <input type="text" id="searchBar" name="search_query" placeholder="Search by ID" onkeyup="SearchBar()">
+            <input type="submit" value="Submit Search">
+        </form>
+        </div>
+        <!--CART TABLE-->
+        <div>
+        <table>
+            <caption>Cart</caption>
+            <thead>
+                <tr>
+                    <td>ID</td>
+                    <td>Item</td>
+                    <td>Price</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart %}
+                <tr>
+                    <td>{{ item.item_id }}</td>
+                    <td>{{ item.item }}</td>
+                    <td>${{ item.price }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3">No items found</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </div>
+    </div>
+    <div>
         <button class="button button1" onclick="">Add Item</button>
         <button class="button button2" onclick="">Remove Item</button>
         <button class="button button3" onclick="">X Clear</button>

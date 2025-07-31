@@ -60,6 +60,6 @@ def add_to_cart(request):
     
 
     return JsonResponse({
-        'cart': cart_data, #cart_data is a list of dictionaries contraining item_id, item name, quantity, price, and subtotal
-        'total_price': round(total, 2)
+        'cart': cart_data #cart_data is a list of dictionaries contraining item_id, item name, quantity, price, and subtotal
+  #      'total_price': round(total, 2)
     })
