@@ -2,21 +2,16 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.http import HttpResponse
-from .models import Items, Transactions, TransactionItems
+from .models import Items
 
 
 def index(request):
     return HttpResponse("Hello, world. You're at the xyz.")
 
 def template(request):
-    # get value from searchbar
-
-
-
     items = Items.objects.all()
-    transactions = Transactions.objects.all()
-    transactionsItems = TransactionItems.objects.all()
-    return render(request, 'app/template.html', {'items': items, 'transactions': transactions, 'transactionItems': transactionsItems})
+    cart = request.session.get('cart', [])
+    return render(request, 'app/template.html', {'items': items, 'cart': cart})
 
 
 def getID(request):

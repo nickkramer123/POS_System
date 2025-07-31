@@ -1,9 +1,7 @@
 from django.contrib import admin
-from .models import Items, Transactions, TransactionItems
+from .models import Items
 
 
 # Register your models here.
 admin.site.register(Items)
-admin.site.register(Transactions)
-admin.site.register(TransactionItems)
 
