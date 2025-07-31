@@ -22,5 +22,5 @@ from . import views
 urlpatterns = [
     path("", views.template, name="template"), # connects template function in views to template.html
     path("admin/", admin.site.urls), # not sure what this does yet
-
+    path("search/", views.search_item, name="search_item")
 ]
