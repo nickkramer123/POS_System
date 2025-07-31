@@ -16,8 +16,13 @@ def home(request):
     transactionsItems = TransactionItems.objects.all()
 
     cart_dict = request.session.get('cart', {})
+    
+
     cart = list(cart_dict.values())  # Convert the cart dictionary to a list of items
-    return render(request, 'app/home.html', {'items': items, 'transactions': transactions, 'transactionItems': transactionsItems, 'cart': cart})
+    total = request.session.get('total', 0.0)
+
+
+    return render(request, 'app/home.html', {'items': items, 'transactions': transactions, 'transactionItems': transactionsItems, 'cart': cart, 'total': total})
 
 
 def getID(request):
@@ -58,5 +63,7 @@ def add_to_cart(request):
 
         cart_data.append(item_data)
     
+    request.session['total'] = round(total, 2)  # save total in session
+
 
     return redirect('home')  # Redirect to the template view after adding to cart
