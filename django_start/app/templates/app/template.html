@@ -39,6 +39,11 @@
         border: 1px solid black;
         padding: 8px;
     }
+    caption {
+        font-weight: bold;
+        color: #333;
+        padding: 5px;
+    }
 
 
     </style>
@@ -80,7 +85,7 @@
         <!--SEARCHBAR FOR ID-->
         <form method="get" action="{% url 'template' %}">
             <input type="text" id="searchBar" name="search_query" placeholder="Search by ID" onkeyup="SearchBar()">
-            <input type="submit" value="Submit Search">
+            <input type="submit" value="Add to Cart">
         </form>
         </div>
         <!--CART TABLE-->
