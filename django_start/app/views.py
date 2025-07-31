@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import JsonResponse
 
 # Create your views here.
@@ -6,10 +6,7 @@ from django.http import HttpResponse
 from .models import Items, Transactions, TransactionItems
 from backend.inventory import find_item_by_id
 
-def index(request):
-    return HttpResponse("Hello, world. You're at the xyz.")
-
-def template(request):
+def home(request):
     # get value from searchbar
 
 
@@ -17,7 +14,10 @@ def template(request):
     items = Items.objects.all()
     transactions = Transactions.objects.all()
     transactionsItems = TransactionItems.objects.all()
-    return render(request, 'app/template.html', {'items': items, 'transactions': transactions, 'transactionItems': transactionsItems})
+
+    cart_dict = request.session.get('cart', {})
+    cart = list(cart_dict.values())  # Convert the cart dictionary to a list of items
+    return render(request, 'app/home.html', {'items': items, 'transactions': transactions, 'transactionItems': transactionsItems, 'cart': cart})
 
 
 def getID(request):
@@ -59,7 +59,4 @@ def add_to_cart(request):
         cart_data.append(item_data)
     
 
-    return JsonResponse({
-        'cart': cart_data #cart_data is a list of dictionaries contraining item_id, item name, quantity, price, and subtotal
-  #      'total_price': round(total, 2)
-    })
+    return redirect('home')  # Redirect to the template view after adding to cart
