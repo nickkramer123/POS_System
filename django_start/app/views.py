@@ -9,8 +9,6 @@ from backend.inventory import find_item_by_id
 def home(request):
     # get value from searchbar
 
-
-
     items = Items.objects.all()
     transactions = Transactions.objects.all()
     transactionsItems = TransactionItems.objects.all()
@@ -67,3 +65,7 @@ def add_to_cart(request):
 
 
     return redirect('home')  # Redirect to the template view after adding to cart
+
+def clear_cart(request):
+    request.session['cart'] = {}  # Clear the cart in the session
+    return redirect('home')  # Redirect to the template view after clearing the cart
