@@ -28,6 +28,14 @@
 </head>
 
 <body>
+    <!-- SEARCH BAR-->
+    <div class="topnav">
+        <form method="get" action="{% url 'template' %}">
+            <input type="text" id="searchBar" name="search_query" placeholder="Search by ID" onkeyup="SearchBar()">
+            <input type="submit" value="Submit Search">
+        </form>
+    </div>
+    
     <div class="container">
         <h1>Welcome to POS System</h1>
         {% block content %}
@@ -58,6 +66,8 @@
                 {% endfor %}
             </tbody>
         </table>
+      
+        
         <button class="button button1" onclick="">Add Item</button>
         <button class="button button2" onclick="">Remove Item</button>
         <button class="button button3" onclick="">X Clear</button>
@@ -96,7 +106,30 @@
             tableBody.appendChild(row);
         });
 
+        // TODO search for item name?
+        function SearchBar() {
+        // Declare variables
+        const input = document.getElementById('searchBar'); // the input from the seachbar
+        const filter = input.value.toUpperCase();
+        const table = document.querySelector("table"); // finds the first table element in the HTML
+        const tableRows = table.getElementsByTagName("tr"); // grabs all rows from the table, including header and item rows
 
+        // Loop through all list items, and hide those who don't match the search query
+        for (i = 1; i < tableRows.length; i++) {
+            const tableData = tableRows[i].getElementsByTagName("td")[0]
+            if (tableData) {
+                const txtValue = tableData.textContent || tableData.innerText; // gets the ID searched
+                if (txtValue.toUpperCase().indexOf(filter) > -1) { // checks for a match
+       //             return txtValue
+                    tableRows[i].style.display = ""; // show matching row
+                }
+                else {
+                    tableRows[i].style.display = "none"; // hide non-matching row
+
+                }
+            }
+        }
+    }
 
 
     </script>
@@ -110,3 +143,4 @@
 
 </body>
 </html>
+
