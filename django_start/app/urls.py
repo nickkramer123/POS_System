@@ -23,4 +23,5 @@ urlpatterns = [
     path("", views.home, name="home"), # connects template function in views to template.html
     path("admin/", admin.site.urls), # not sure what this does yet
     path("add_to_cart/", views.add_to_cart, name="add_to_cart"), # connects add_to_cart function in views to add_to_cart
+    path("clear_cart/", views.clear_cart, name="clear_cart"), # connects clear_cart function in views to clear_cart
 ]

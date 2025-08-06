@@ -51,7 +51,7 @@
 
 <body>
     <header>
-        <h1>Welcome to out POS System!</h1>
+        <h1>Welcome to our POS System!</h1>
     </header>
     <!-- SEARCH BAR-->
     
@@ -83,7 +83,7 @@
             </tbody>
         </table>
         <!--SEARCHBAR FOR ID-->
-        <form method="get" action="{% url 'add_to_cart' %}">
+        <form method="get" action="{% url 'add_to_cart' %}" onsubmit="return validateSearch()">
             <input type="text" id="searchBar" name="search_query" placeholder="Search by ID" onkeyup="SearchBar()">
             <input type="submit" value="Add to Cart">
         </form>
@@ -97,6 +97,7 @@
                     <td>ID</td>
                     <td>Item</td>
                     <td>Price</td>
+                    <td>Quantity</td>
                 </tr>
             </thead>
             <tbody>
@@ -105,26 +106,31 @@
                     <td>{{ item.item_id }}</td>
                     <td>{{ item.item }}</td>
                     <td>${{ item.price }}</td>
+                    <td>{{ item.quantity }}</td>
                 </tr>
                 {% empty %}
                 <tr>
-                    <td colspan="3">No items found</td>
+                    <td colspan=4>No items found</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
+        <p id="TotalPrice">Total: ${{ total }}</p>
         </div>
     </div>
     <div>
         <button class="button button1" onclick="">Add Item</button>
         <button class="button button2" onclick="">Remove Item</button>
-        <button class="button button3" onclick="">X Clear</button>
+        <form method="post" action="{% url 'clear_cart' %}" style="display:inline;">
+            {% csrf_token %}
+            <button class="button button3" type="submit">X Clear</button>
+        </form>
         <button class="button button4" onclick="">✓ Tender</button>
 
 
+
+
     </div>
-
-
 
 
     <div id="dynamic-content">
@@ -132,7 +138,6 @@
     </div>
     <script>
         
-
 
 
 
@@ -178,6 +183,41 @@
             }
         }
     }
+
+    // updates the total price by accessing views
+
+
+
+    // validate the search with a popup, similar in logic to searchbar
+    function validateSearch() {
+        const input = document.getElementById('searchBar').value.trin().toUpperCase();
+        const table = document.querySelector("table"); // finds the first table element in the HTML
+        const tableRows = table.getElementsByTagName("tr"); // grabs all rows from the table, including header and item rows
+
+        let validSearch = false
+        for (i = 1; i < tableRows.length; i++) {
+            const tableData = tableRows[i].getElementsByTagName("td")[0];
+            if (tableData) {
+                const idText = tableData.textContent.trim().toUpperCase();
+                if (idText === input) {
+                    validSearch = true;
+                    break;
+                }
+            }
+        }
+
+        if (!validSearch){
+            alert("Please enter a valid Item ID");
+            return false;
+        }
+        return true
+    }
+    
+    
+
+
+
+
 
 
     </script>
