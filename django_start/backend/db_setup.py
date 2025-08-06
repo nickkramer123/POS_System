@@ -4,10 +4,12 @@ import os
 
 
 # Get the directory this script is in
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+from pathlib import Path
 
-DB_PATH = os.path.abspath(os.path.join(BASE_DIR, '..', 'inventory.db'))
-CSV_PATH = os.path.abspath(os.path.join(BASE_DIR, '..', 'inventory.csv'))
+BASE_DIR = Path(__file__).resolve().parents[1]
+DB_PATH = BASE_DIR / 'inventory.db'
+CSV_PATH = BASE_DIR / 'inventory.csv'
+
 print("Database will be created at:", DB_PATH)
 print("CSV data will be read from:", CSV_PATH)
 
@@ -18,6 +20,10 @@ def setup_database():
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
 
+    cursor.execute('''
+    DROP TABLE IF EXISTS items
+    ''')
+    
     # Create the items table  
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS items (
@@ -27,6 +33,24 @@ def setup_database():
         quantity INTEGER NOT NULL
     )
     ''')
+
+    cursor.execute ('''
+    CREATE TABLE IF NOT EXISTS transactions (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        price REAL NOT NULL,
+        timestamp TEXT NOT NULL
+    )
+    ''')
+
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS transaction_items (
+        transaction_id INTEGER,
+        item_id INTEGER,
+        quantity INTEGER NOT NULL,
+        price REAL NOT NULL,
+        FOREIGN KEY (transaction_id) REFERENCES transactions (id)
+    )
+    ''')
     conn.commit()
     conn.close()
     print("Database setup complete with items table created.")
@@ -34,6 +58,8 @@ def setup_database():
 def populate_database():
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
+    cursor.execute("DELETE FROM items")
+
     # Populate the items table with data from inventory.csv
     with open(CSV_PATH, newline='') as csvfile:
         reader = csv.DictReader(csvfile)

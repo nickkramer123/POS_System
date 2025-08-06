@@ -1,0 +1,193 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POS System</title>
+    <style>
+        /*Styles here*/
+    .button {
+        border: none;
+        color: white;
+        padding: 10.75px 24px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 12px;
+        margin: 3px 1.5px;
+        cursor: pointer;
+    }
+    .button1 {background-color: #555;}
+    .button2 {background-color: #555;}
+    .button3 {background-color: #555;}
+    .button4 {background-color: #555;}
+
+
+    .table-container {
+        display: flex;
+        gap: 40px; /* space between tables */
+    }
+
+    table {
+        border-collapse: collapse;
+        width: 300px;
+    }
+
+    th, td {
+        border: 1px solid black;
+        padding: 8px;
+    }
+    caption {
+        font-weight: bold;
+        color: #333;
+        padding: 5px;
+    }
+
+
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Welcome to out POS System!</h1>
+    </header>
+    <!-- SEARCH BAR-->
+    
+    <div class="table-container">
+    <div>
+        <table>
+            <caption>Inventory</caption>
+            <thead>
+                <tr>
+                    <td>ID</td>
+                    <td>Item</td>
+                    <td>Price</td>
+                    <td>Quantity</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>{{ item.item_id }}</td>
+                    <td>{{ item.item }}</td>
+                    <td>${{ item.price }}</td>
+                    <td>{{ item.quantity }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4">No items found</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <!--SEARCHBAR FOR ID-->
+        <form method="get" action="{% url 'add_to_cart' %}">
+            <input type="text" id="searchBar" name="search_query" placeholder="Search by ID" onkeyup="SearchBar()">
+            <input type="submit" value="Add to Cart">
+        </form>
+        </div>
+        <!--CART TABLE-->
+        <div>
+        <table>
+            <caption>Cart</caption>
+            <thead>
+                <tr>
+                    <td>ID</td>
+                    <td>Item</td>
+                    <td>Price</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart %}
+                <tr>
+                    <td>{{ item.item_id }}</td>
+                    <td>{{ item.item }}</td>
+                    <td>${{ item.price }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3">No items found</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </div>
+    </div>
+    <div>
+        <button class="button button1" onclick="">Add Item</button>
+        <button class="button button2" onclick="">Remove Item</button>
+        <button class="button button3" onclick="">X Clear</button>
+        <button class="button button4" onclick="">✓ Tender</button>
+
+
+    </div>
+
+
+
+
+    <div id="dynamic-content">
+    <!-- dynamic content goes here-->
+    </div>
+    <script>
+        
+
+
+
+
+        // Javascript code for dynamically inserting data
+        // placeholder below
+        const data = [
+        { column1: 'Value1', column2: 'Value2', column3: 'Value3' },
+        { column1: 'Value4', column2: 'Value5', column3: 'Value6' }];
+    
+
+        const tableBody = document.querySelector('#dynamic-content');
+        data.forEach(rowData => {
+            const row = document.createElement('div');
+            row.innerHTML = `
+                <p>Column 1: ${rowData.column1}</p>
+                <p>Column 2: ${rowData.column2}</p>
+                <p>Column 3: ${rowData.column3}</p>
+            `;
+            tableBody.appendChild(row);
+        });
+
+        // TODO search for item name?
+        function SearchBar() {
+        // Declare variables
+        const input = document.getElementById('searchBar'); // the input from the seachbar
+        const filter = input.value.toUpperCase();
+        const table = document.querySelector("table"); // finds the first table element in the HTML
+        const tableRows = table.getElementsByTagName("tr"); // grabs all rows from the table, including header and item rows
+
+        // Loop through all list items, and hide those who don't match the search query
+        for (i = 1; i < tableRows.length; i++) {
+            const tableData = tableRows[i].getElementsByTagName("td")[0]
+            if (tableData) {
+                const txtValue = tableData.textContent || tableData.innerText; // gets the ID searched
+                if (txtValue.toUpperCase().indexOf(filter) > -1) { // checks for a match
+       //             return txtValue
+                    tableRows[i].style.display = ""; // show matching row
+                }
+                else {
+                    tableRows[i].style.display = "none"; // hide non-matching row
+
+                }
+            }
+        }
+    }
+
+
+    </script>
+    
+
+
+
+
+        
+ 
+
+</body>
+</html>
