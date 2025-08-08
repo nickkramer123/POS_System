@@ -18,11 +18,9 @@
         font-size: 12px;
         margin: 3px 1.5px;
         cursor: pointer;
+        background-color: #555;
     }
-    .button1 {background-color: #555;}
-    .button2 {background-color: #555;}
-    .button3 {background-color: #555;}
-    .button4 {background-color: #555;}
+
 
 
     .table-container {
@@ -52,8 +50,10 @@
 <body>
     <header>
         <h1>Welcome to our POS System!</h1>
+        <div class="header-buttons">
+            <a href="{% url 'pos_admin' %}" class="button">Admin</a>
+        </div>
     </header>
-    <!-- SEARCH BAR-->
     
     <div class="table-container">
     <div>
@@ -119,13 +119,13 @@
         </div>
     </div>
     <div>
-        <button class="button button1" onclick="">Add Item</button>
-        <button class="button button2" onclick="">Remove Item</button>
+        <button class="button" onclick="">Add Item</button>
+        <button class="button" onclick="">Remove Item</button>
         <form method="post" action="{% url 'clear_cart' %}" style="display:inline;">
             {% csrf_token %}
-            <button class="button button3" type="submit">X Clear</button>
+            <button class="button" type="submit">X Clear</button>
         </form>
-        <button class="button button4" onclick="">✓ Tender</button>
+        <button class="button" onclick="">✓ Tender</button>
 
 
 
@@ -190,7 +190,7 @@
 
     // validate the search with a popup, similar in logic to searchbar
     function validateSearch() {
-        const input = document.getElementById('searchBar').value.trin().toUpperCase();
+        const input = document.getElementById('searchBar').value.trim().toUpperCase();
         const table = document.querySelector("table"); // finds the first table element in the HTML
         const tableRows = table.getElementsByTagName("tr"); // grabs all rows from the table, including header and item rows
 
@@ -213,8 +213,6 @@
         return true
     }
     
-    
-
 
 
 

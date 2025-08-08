@@ -1,0 +1,89 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add or Remove</title>
+    <style>
+
+
+    </style>
+</head>
+
+
+<body>
+    <header>
+        <h1>Add or Remove an Item from Inventory</h1>
+<body>
+    <header>
+        <h1>Welcome to our POS System!</h1>
+    </header>
+    
+    <div class="table-container">
+    <div>
+        <table>
+            <caption>Inventory</caption>
+                <thead>
+                    <tr>
+                        <td>ID</td>
+                        <td>Item</td>
+                        <td>Price</td>
+                        <td>Quantity</td>
+                    </tr>
+                </thead>
+                    <tbody>
+                        {% for item in items %}
+                        <tr>
+                            <td>{{ item.item_id }}</td>
+                            <td>{{ item.item }}</td>
+                            <td>${{ item.price }}</td>
+                            <td>{{ item.quantity }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4">No items found</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <!--SEARCHBAR FOR ID-->
+            <form method="get" action="{% url 'add_to_cart' %}" onsubmit="return validateSearch()">
+                <input type="text" id="searchBar" name="search_query" placeholder="Search by ID" onkeyup="SearchBar()">
+                <input type="submit" value="Add to Cart">
+            </form>
+                </div>
+                <!--CART TABLE-->
+                    <div>
+                    <table>
+                        <caption>Cart</caption>
+                        <thead>
+                            <tr>
+                                <td>ID</td>
+                                <td>Item</td>
+                                <td>Price</td>
+                                <td>Quantity</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in cart %}
+                            <tr>
+                                <td>{{ item.item_id }}</td>
+                                <td>{{ item.item }}</td>
+                                <td>${{ item.price }}</td>
+                                <td>{{ item.quantity }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan=4>No items found</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                <p id="TotalPrice">Total: ${{ total }}</p>
+            </div>
+        </div>
+
+
+</body>

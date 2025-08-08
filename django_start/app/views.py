@@ -80,3 +80,18 @@ def clear_cart(request):
     request.session['total'] = 0
 
     return redirect('home')  # Redirect to the template view after clearing the cart
+
+
+
+def pos_admin(request):
+        
+        return render(request, "app/pos_admin.html")
+
+
+
+def add_or_remove(request):   
+         
+        items = Items.objects.all()
+
+        return render(request, "app/add_or_remove.html", {'items': items})
+
