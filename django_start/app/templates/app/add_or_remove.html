@@ -16,10 +16,9 @@
 <body>
     <header>
         <h1>Add or Remove an Item from Inventory</h1>
-<body>
     <header>
-        <h1>Welcome to our POS System!</h1>
-    </header>
+<body>
+
     
     <div class="table-container">
     <div>
@@ -48,42 +47,70 @@
                     {% endfor %}
                 </tbody>
             </table>
-            <!--SEARCHBAR FOR ID-->
-            <form method="get" action="{% url 'add_to_cart' %}" onsubmit="return validateSearch()">
+            <!--SEARCHBAR FOR Removal-->
+            <form method="get" action="{% url 'remove_item' %}" onsubmit="return validateSearch()">
                 <input type="text" id="searchBar" name="search_query" placeholder="Search by ID" onkeyup="SearchBar()">
-                <input type="submit" value="Add to Cart">
+                <input type="submit" value="Remove Item from Inventory">
             </form>
-                </div>
-                <!--CART TABLE-->
-                    <div>
-                    <table>
-                        <caption>Cart</caption>
-                        <thead>
-                            <tr>
-                                <td>ID</td>
-                                <td>Item</td>
-                                <td>Price</td>
-                                <td>Quantity</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for item in cart %}
-                            <tr>
-                                <td>{{ item.item_id }}</td>
-                                <td>{{ item.item }}</td>
-                                <td>${{ item.price }}</td>
-                                <td>{{ item.quantity }}</td>
-                            </tr>
-                            {% empty %}
-                            <tr>
-                                <td colspan=4>No items found</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                <p id="TotalPrice">Total: ${{ total }}</p>
-            </div>
-        </div>
-
-
 </body>
+
+<script>
+
+        // copied from home
+    function SearchBar() {
+        // Declare variables
+        const input = document.getElementById('searchBar'); // the input from the seachbar
+        const filter = input.value.toUpperCase();
+        const table = document.querySelector("table"); // finds the first table element in the HTML
+        const tableRows = table.getElementsByTagName("tr"); // grabs all rows from the table, including header and item rows
+
+        // Loop through all list items, and hide those who don't match the search query
+        for (i = 1; i < tableRows.length; i++) {
+            const tableData = tableRows[i].getElementsByTagName("td")[0]
+            if (tableData) {
+                const txtValue = tableData.textContent || tableData.innerText; // gets the ID searched
+                if (txtValue.toUpperCase().indexOf(filter) > -1) { // checks for a match
+       //             return txtValue
+                    tableRows[i].style.display = ""; // show matching row
+                }
+                else {
+                    tableRows[i].style.display = "none"; // hide non-matching row
+
+                }
+            }
+        }
+    }
+
+// validate the search with a popup, similar in logic to searchbar, copied from home
+    function validateSearch() {
+        const input = document.getElementById('searchBar').value.trim().toUpperCase();
+        const table = document.querySelector("table"); // finds the first table element in the HTML
+        const tableRows = table.getElementsByTagName("tr"); // grabs all rows from the table, including header and item rows
+
+        let validSearch = false
+        for (i = 1; i < tableRows.length; i++) {
+            const tableData = tableRows[i].getElementsByTagName("td")[0];
+            if (tableData) {
+                const idText = tableData.textContent.trim().toUpperCase();
+                if (idText === input) {
+                    validSearch = true;
+                    break;
+                }
+            }
+        }
+
+        if (!validSearch){
+            alert("Please enter a valid Item ID");
+            return false;
+        }
+        return true
+    }
+    
+
+
+
+
+
+
+
+</script>

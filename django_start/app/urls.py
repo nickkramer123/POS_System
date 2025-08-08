@@ -25,7 +25,9 @@ urlpatterns = [
     path("clear_cart/", views.clear_cart, name="clear_cart"), # connects clear_cart function in views to clear_cart
 
     path("pos_admin/", views.pos_admin, name="pos_admin"), # connects pos_admin function in views to pos_admin.html
+
     path("add_or_remove/", views.add_or_remove, name="add_or_remove"),  # connects add_or_remove function in views to add_or_remove.html
+    path("remove_item/", views.remove_item, name="remove_item"), # connects add_to_cart function in views to add_to_cart
 
 
 

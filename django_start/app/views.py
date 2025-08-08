@@ -95,3 +95,8 @@ def add_or_remove(request):
 
         return render(request, "app/add_or_remove.html", {'items': items})
 
+
+def remove_item(request):
+     return redirect('add_or_remove')
+
+
