@@ -90,6 +90,8 @@
 
             <!--Add item to inventory-->
             
+            <form action="{% url 'add_item' %}" method="POST">   <!-- wraps table so all input values are sent to django-->
+            {% csrf_token %}
             <table>
                 <caption>Add Item to Inventory</caption>
                     <thead>
@@ -110,9 +112,9 @@
                     </tbody>
                 </table>
                 <div>
-                    <button class="button" onclick="">Add Item</button>
+                    <button type="submit" class="button">Add Item</button>
                 </div>
-
+            </form>
 
 </body>
 
@@ -168,11 +170,6 @@
         return true
     }
 
-
-    function addItem() {
-        return true
-    }
-    
 
 
 
