@@ -7,16 +7,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add or Remove</title>
     <style>
+        /*Styles here*/
+    .button {
+        border: none;
+        color: white;
+        padding: 10.75px 24px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 12px;
+        margin: 3px 1.5px;
+        cursor: pointer;
+        background-color: #555;
+    }
+
+
+
+    .table-container {
+        display: flex;
+        gap: 40px; /* space between tables */
+    }
+
+    table {
+        border-collapse: collapse;
+        width: 300px;
+    }
+
+    th, td {
+        border: 1px solid black;
+        padding: 8px;
+    }
+    caption {
+        font-weight: bold;
+        color: #333;
+        padding: 5px;
+    }
 
 
     </style>
 </head>
 
 
-<body>
-    <header>
-        <h1>Add or Remove an Item from Inventory</h1>
-    <header>
+<header>
+    <h1>Add or Remove an Item from Inventory</h1>
+<header>
 <body>
 
     
@@ -52,6 +86,34 @@
                 <input type="text" id="searchBar" name="search_query" placeholder="Search by ID" onkeyup="SearchBar()">
                 <input type="submit" value="Remove Item from Inventory">
             </form>
+
+
+            <!--Add item to inventory-->
+            
+            <table>
+                <caption>Add Item to Inventory</caption>
+                    <thead>
+                        <tr>
+                            <td>ID</td>
+                            <td>Item</td>
+                            <td>Price</td>
+                            <td>Quantity</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="ID" name="id" placeholder="Enter ID"></td>
+                            <td><input type="Item" name="item" placeholder="Enter Item"></td>
+                            <td><input type="Price" name="price" placeholder="Enter Price"></td>
+                            <td><input type="Quantity" name="quantity" placeholder="Enter Quantity"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div>
+                    <button class="button" onclick="">Add Item</button>
+                </div>
+
+
 </body>
 
 <script>
@@ -103,6 +165,11 @@
             alert("Please enter a valid Item ID");
             return false;
         }
+        return true
+    }
+
+
+    function addItem() {
         return true
     }
     

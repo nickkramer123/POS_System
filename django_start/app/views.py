@@ -83,20 +83,38 @@ def clear_cart(request):
 
 
 
-def pos_admin(request):
-        
-        return render(request, "app/pos_admin.html")
+def pos_admin(request):  
+    return render(request, "app/pos_admin.html")
 
 
 
 def add_or_remove(request):   
-         
-        items = Items.objects.all()
-
-        return render(request, "app/add_or_remove.html", {'items': items})
+    items = Items.objects.all()
+    return render(request, "app/add_or_remove.html", {'items': items})
 
 
 def remove_item(request):
-     return redirect('add_or_remove')
+    # same logic as add to cart
+    item_id = getID(request)
+    if not item_id: # for input validation
+        return redirect('add_or_remove')
+
+
+    item = Items.objects.get(item_id=item_id)
+    if not item: # for input validation
+        return redirect('add_or_remove')
+    
+    # remove item from database
+    item.delete()
+
+    return redirect('add_or_remove')
+
+
+
+
+
+
+def add_item(request):
+    return redirect('add_or_remove')
 
 
