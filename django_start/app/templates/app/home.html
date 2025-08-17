@@ -23,7 +23,7 @@
     .button2 {background-color: #555;}
     .button3 {background-color: #555;}
     .button4 {background-color: #555;}
-
+    .button5 {background-color: #192;}
 
     .table-container {
         display: flex;
@@ -97,6 +97,7 @@
                     <td>ID</td>
                     <td>Item</td>
                     <td>Price</td>
+                    <td>Quantity</td>
                 </tr>
             </thead>
             <tbody>
@@ -105,6 +106,7 @@
                     <td>{{ item.item_id }}</td>
                     <td>{{ item.item }}</td>
                     <td>${{ item.price }}</td>
+                    <td>{{ item.quantity}}</td>
                 </tr>
                 {% empty %}
                 <tr>
@@ -124,7 +126,10 @@
             <button class="button button3" type="submit">X Clear</button>
         </form>
         <button class="button button4" onclick="">✓ Tender</button>
-
+        <form method="post" action="{% url 'tender' %}" style="display:inline;">
+            {% csrf_token %}
+            <button class="button button5" type="submit">Close</button>
+        </form>
 
 
 

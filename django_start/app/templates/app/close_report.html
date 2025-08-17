@@ -1,0 +1,93 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EOD Report</title>
+     <style>
+        /*Styles here*/
+    .button {
+        border: none;
+        color: white;
+        padding: 10.75px 24px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 12px;
+        margin: 3px 1.5px;
+        cursor: pointer;
+    }
+    .button1 {background-color: #555;}
+    .button2 {background-color: #555;}
+    .button3 {background-color: #555;}
+    .button4 {background-color: #555;}
+    .button5 {background-color: #192;}
+
+    .table-container {
+        display: flex;
+        gap: 40px; /* space between tables */
+    }
+
+    table {
+        border-collapse: collapse;
+        width: 300px;
+    }
+
+    th, td {
+        border: 1px solid black;
+        padding: 8px;
+    }
+    caption {
+        font-weight: bold;
+        color: #333;
+        padding: 5px;
+    }
+
+
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>End of Day Sales Report</h1>
+    </header>
+        <div>
+        <form method="post" action="{% url 'home' %}" style="display:inline;">
+            {% csrf_token %}
+            <button class="button button5" type="submit">Home</button>
+        </form>
+
+
+
+    </div>
+    <div>
+        <table>
+            <caption>Transaction History</caption>
+            <thead>
+                <tr>
+                    <td>ID</td>
+                    <td>Item</td>
+                    <td>Price</td>
+                    <td>Quantity</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>{{ item.item_id }}</td>
+                    <td>{{ item.item }}</td>
+                    <td>${{ item.price }}</td>
+                    <td>{{ item.quantity }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4">No items found</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

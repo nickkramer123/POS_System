@@ -20,9 +20,32 @@ def home(request):
     total = request.session.get('total', 0.0)
 
 
-    return render(request, 'app/home.html', {'items': items, 'transactions': transactions, 'transactionItems': transactionsItems, 'cart': cart, 'total': total})
+    return render(request, 
+                  'app/home.html', 
+                  {'items': items, 
+                   'transactions': transactions, 
+                   'transactionItems': transactionsItems, 
+                   'cart': cart, 
+                   'total': total})
 
+# def tender(request):
 
+#     cart = request.session.get('cart', {}) # get the cart from the session
+    
+#     if not cart:
+#         return redirect('home') # There's nothing to sell so do nothing
+    
+#     item_ids = []
+#     for item in cart.values():
+#         item_ids.add(item)
+
+    
+#     return render(request,
+#                 'app/close_report.html', 
+#                 {'transactions': transactions, 
+#                 'transactionItems': transactionsItems, 
+#                 'cart': cart, 
+#                 'total': total})
 def getID(request):
     query = request.GET.get('search_query', '')
     print("user searched for: ", query)
@@ -68,4 +91,5 @@ def add_to_cart(request):
 
 def clear_cart(request):
     request.session['cart'] = {}  # Clear the cart in the session
+    request.session['total'] = 0.0  # Reset the total in the session
     return redirect('home')  # Redirect to the template view after clearing the cart
