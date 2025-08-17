@@ -19,7 +19,7 @@ class Command(BaseCommand):
                 obj, was_created = Items.objects.update_or_create(
                     item_id=int(row["item_id"]),
                     defaults={
-                        "name": row["name"],
+                        "name": row["item"],
                         "price": row["price"],
                         "quantity": row["quantity"],
                     },

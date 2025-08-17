@@ -28,24 +28,24 @@ def home(request):
                    'cart': cart, 
                    'total': total})
 
-# def tender(request):
+def tender(request):
 
-#     cart = request.session.get('cart', {}) # get the cart from the session
+    cart = request.session.get('cart', {}) # get the cart from the session
     
-#     if not cart:
-#         return redirect('home') # There's nothing to sell so do nothing
+    if not cart:
+        return redirect('home') # There's nothing to sell so do nothing
     
-#     item_ids = []
-#     for item in cart.values():
-#         item_ids.add(item)
+    item_ids = []
+    for item in cart.values():
+        item_ids.add(item)
 
     
-#     return render(request,
-#                 'app/close_report.html', 
-#                 {'transactions': transactions, 
-#                 'transactionItems': transactionsItems, 
-#                 'cart': cart, 
-#                 'total': total})
+    return render(request,
+                'app/close_report.html', 
+                {'transactions': transactions, 
+                'transactionItems': transactionsItems, 
+                'cart': cart, 
+                'total': total})
 def getID(request):
     query = request.GET.get('search_query', '')
     print("user searched for: ", query)
@@ -55,21 +55,25 @@ def add_to_cart(request):
     
     item_id = getID(request)
     
-    item = find_item_by_id(item_id) #item object
+    try:
+        item = Items.objects.get(item_id=int(item_id))
+    except Items.DoesNotExist:
+        return redirect('home')
 
 
     cart = request.session.get('cart', {})
-    
     # Populate the cart in the session
     if str(item_id) in cart:
         cart[str(item_id)]['quantity'] += 1
     else:
         cart[str(item_id)] = {
             'item_id': item_id, 
-            'item' : item.name,
+            'name' : item.name,
             'quantity': 1, 
-            'price': item.price
+            'price': float(item.price)
         }
+
+    print(cart)
     request.session['cart'] = cart # This updates the session with the new cart data
     print("Item added to cart:", item_id)
 
