@@ -1,0 +1,184 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add or Remove</title>
+    <style>
+        /*Styles here*/
+    .button {
+        border: none;
+        color: white;
+        padding: 10.75px 24px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 12px;
+        margin: 3px 1.5px;
+        cursor: pointer;
+        background-color: #555;
+    }
+
+
+
+    .table-container {
+        display: flex;
+        gap: 40px; /* space between tables */
+    }
+
+    table {
+        border-collapse: collapse;
+        width: 300px;
+    }
+
+    th, td {
+        border: 1px solid black;
+        padding: 8px;
+    }
+    caption {
+        font-weight: bold;
+        color: #333;
+        padding: 5px;
+    }
+
+
+    </style>
+</head>
+
+
+<header>
+    <h1>Add or Remove an Item from Inventory</h1>
+<header>
+<body>
+
+    
+    <div class="table-container">
+    <div>
+                
+        
+        <a href="{% url 'pos_admin' %}" class="button">Back</a>
+
+        <table>
+            <caption>Inventory</caption>
+                <thead>
+                    <tr>
+                        <td>ID</td>
+                        <td>Item</td>
+                        <td>Price</td>
+                        <td>Quantity</td>
+                    </tr>
+                </thead>
+                    <tbody>
+                        {% for item in items %}
+                        <tr>
+                            <td>{{ item.item_id }}</td>
+                            <td>{{ item.item }}</td>
+                            <td>${{ item.price }}</td>
+                            <td>{{ item.quantity }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4">No items found</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <!--SEARCHBAR FOR Removal-->
+            <form method="get" action="{% url 'remove_item' %}" onsubmit="return validateSearch()">
+                <input type="text" id="searchBar" name="search_query" placeholder="Search by ID" onkeyup="SearchBar()">
+                <input type="submit" value="Remove Item from Inventory">
+            </form>
+
+
+            <!--Add item to inventory-->
+            
+            <form action="{% url 'add_item' %}" method="POST">   <!-- wraps table so all input values are sent to django-->
+            {% csrf_token %}
+            <table>
+                <caption>Add Item to Inventory</caption>
+                    <thead>
+                        <tr>
+                            <td>ID</td>
+                            <td>Item</td>
+                            <td>Price</td>
+                            <td>Quantity</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="ID" name="id" placeholder="Enter ID"></td>
+                            <td><input type="Item" name="item" placeholder="Enter Item"></td>
+                            <td><input type="Price" name="price" placeholder="Enter Price"></td>
+                            <td><input type="Quantity" name="quantity" placeholder="Enter Quantity"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div>
+                    <button type="submit" class="button">Add Item</button>
+                </div>
+            </form>
+
+</body>
+
+<script>
+
+        // copied from home
+    function SearchBar() {
+        // Declare variables
+        const input = document.getElementById('searchBar'); // the input from the seachbar
+        const filter = input.value.toUpperCase();
+        const table = document.querySelector("table"); // finds the first table element in the HTML
+        const tableRows = table.getElementsByTagName("tr"); // grabs all rows from the table, including header and item rows
+
+        // Loop through all list items, and hide those who don't match the search query
+        for (i = 1; i < tableRows.length; i++) {
+            const tableData = tableRows[i].getElementsByTagName("td")[0]
+            if (tableData) {
+                const txtValue = tableData.textContent || tableData.innerText; // gets the ID searched
+                if (txtValue.toUpperCase().indexOf(filter) > -1) { // checks for a match
+       //             return txtValue
+                    tableRows[i].style.display = ""; // show matching row
+                }
+                else {
+                    tableRows[i].style.display = "none"; // hide non-matching row
+
+                }
+            }
+        }
+    }
+
+// validate the search with a popup, similar in logic to searchbar, copied from home
+    function validateSearch() {
+        const input = document.getElementById('searchBar').value.trim().toUpperCase();
+        const table = document.querySelector("table"); // finds the first table element in the HTML
+        const tableRows = table.getElementsByTagName("tr"); // grabs all rows from the table, including header and item rows
+
+        let validSearch = false
+        for (i = 1; i < tableRows.length; i++) {
+            const tableData = tableRows[i].getElementsByTagName("td")[0];
+            if (tableData) {
+                const idText = tableData.textContent.trim().toUpperCase();
+                if (idText === input) {
+                    validSearch = true;
+                    break;
+                }
+            }
+        }
+
+        if (!validSearch){
+            alert("Please enter a valid Item ID");
+            return false;
+        }
+        return true
+    }
+
+
+
+
+
+
+
+
+</script>

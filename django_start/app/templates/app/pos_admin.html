@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Page</title>
+    <style>
+    .button {
+            border: none;
+            color: white;
+            padding: 10.75px 24px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 12px;
+            margin: 3px 1.5px;
+            cursor: pointer;
+            background-color: #555;
+        }
+
+
+    </style>
+</head>
+
+
+<body>
+    <header>
+        <h1>Admin Page</h1>
+    </header>
+    <div>
+        <a href="{% url 'add_or_remove' %}" class="button">Add/Remove Item from Inventory</a>
+        <button class="button" onclick="">Manage Inventory</button>
+        <form method="post" action="{% url 'clear_cart' %}" style="display:inline;">
+            {% csrf_token %}
+            <button class="button" type="submit">See Previous Transactions (DONT TOUCH)</button>
+        </form>
+        <a href="{% url 'home' %}" class="button">Back</a>
+
+
+
+
+
+    </div>
+</body>
