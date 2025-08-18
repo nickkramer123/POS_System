@@ -27,9 +27,20 @@ urlpatterns = [
     path("pos_admin/", views.pos_admin, name="pos_admin"), # connects pos_admin function in views to pos_admin.html
 
     path("add_or_remove/", views.add_or_remove, name="add_or_remove"),  # connects add_or_remove function in views to add_or_remove.html
-    path("remove_item/", views.remove_item, name="remove_item"), # connects add_to_cart function in views to add_to_cart
+    path("remove_item/", views.remove_item, name="remove_item"), # connects remove_item function in views to remove_item
+    path("add_item/", views.add_item, name="add_item"), # connects add_item function in views to add_item
 
-    path("add_item/", views.add_item, name="add_item"), # connects add_to_cart function in views to add_to_cart
+
+
+    path("edit_quantity/", views.edit_quantity, name="edit_quantity"), # connects edit_quantity function in views to edit_quantity
+    path("update_quantity/", views.update_quantity, name="update_quantity"), # connects add_item function in views to add_item
+
+
+
+    path("edit_price/", views.edit_quantity, name="edit_price"), # connects edit_quantity function in views to edit_quantity
+
+
+
 
 
 

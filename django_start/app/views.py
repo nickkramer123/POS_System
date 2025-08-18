@@ -110,10 +110,6 @@ def remove_item(request):
     return redirect('add_or_remove')
 
 
-
-
-
-
 def add_item(request):
 
     # Get values from the form submission
@@ -131,5 +127,51 @@ def add_item(request):
         )
 
     return redirect('add_or_remove')
+
+
+
+
+
+
+def edit_quantity(request):   
+    items = Items.objects.all()
+    return render(request, "app/edit_quantity.html", {'items': items})
+
+
+def update_quantity(request):
+
+    # get item
+    item_id = getID(request)
+    if not item_id: # for input validation
+        return redirect('edit_quantity')
+
+    item = find_item_by_id(item_id) #item object
+    if not item: # for input validation
+        return redirect('edit_quantity')
+    
+    # get new quantity
+    new_quantity = request.GET.get('search_query_quantity', '')
+    if not new_quantity.isdigit():
+        return redirect('edit_quantity')
+
+
+    # add new quantity to item
+    item.quantity = int(new_quantity)
+    item.save() 
+
+    
+    return redirect('edit_quantity')
+
+
+
+
+
+
+
+
+
+def edit_price(request):   
+    items = Items.objects.all()
+    return render(request, "app/edit_price.html", {'items': items})
 
 

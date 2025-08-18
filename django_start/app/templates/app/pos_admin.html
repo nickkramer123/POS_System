@@ -31,7 +31,10 @@
     </header>
     <div>
         <a href="{% url 'add_or_remove' %}" class="button">Add/Remove Item from Inventory</a>
-        <button class="button" onclick="">Manage Inventory</button>
+        <a href="{% url 'edit_quantity' %}" class="button">Edit Quantity</a>
+        <a href="{% url 'edit_price' %}" class="button">Edit Price</a>
+
+
         <form method="post" action="{% url 'clear_cart' %}" style="display:inline;">
             {% csrf_token %}
             <button class="button" type="submit">See Previous Transactions (DONT TOUCH)</button>
