@@ -136,17 +136,19 @@ def add_item(request):
 
     # Get values from the form submission
     item_id = request.POST.get("item_id")
-    item_name = request.POST.get("item")
+    item_name = request.POST.get("name")
     price = request.POST.get("price")
     quantity = request.POST.get("quantity")
 
 
     Items.objects.create(
             item_id=item_id,
-            item=item_name,
+            name=item_name,
             price=price,
             quantity=quantity
         )
+    print(request.POST)
+
 
     return redirect('add_or_remove')
 

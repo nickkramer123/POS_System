@@ -95,11 +95,8 @@
                     <td>{{ item.item_id }}</td>
                     <td>{{ item.name }}</td>
                     <td>${{ item.price }}</td>
-<<<<<<< HEAD
-                    <td>{{ item.quantity }}</td>
-=======
                     <td>{{ item.quantity}}</td>
->>>>>>> origin/sale-db-logic
+
                 </tr>
                 {% empty %}
                 <tr>
@@ -118,16 +115,11 @@
             {% csrf_token %}
             <button class="button" type="submit">X Clear</button>
         </form>
-<<<<<<< HEAD
-        <button class="button" onclick="">✓ Tender</button>
-
-=======
         <button class="button button4" onclick="">✓ Tender</button>
         <form method="post" action="{% url 'tender' %}" style="display:inline;">
             {% csrf_token %}
             <button class="button button5" type="submit">Close</button>
         </form>
->>>>>>> origin/sale-db-logic
 
 
 

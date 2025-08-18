@@ -63,7 +63,7 @@
                         {% for item in items %}
                         <tr>
                             <td>{{ item.item_id }}</td>
-                            <td>{{ item.item }}</td>
+                            <td>{{ item.name }}</td>
                             <td>${{ item.price }}</td>
                             <td>{{ item.quantity }}</td>
                         </tr>
@@ -97,10 +97,10 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td><input type="ID" name="id" placeholder="Enter ID"></td>
-                            <td><input type="Item" name="item" placeholder="Enter Item"></td>
-                            <td><input type="Price" name="price" placeholder="Enter Price"></td>
-                            <td><input type="Quantity" name="quantity" placeholder="Enter Quantity"></td>
+                            <td><input type="text" name="item_id" placeholder="Enter ID"></td>
+                            <td><input type="text" name="name" placeholder="Enter Item"></td>
+                            <td><input type="number" name="price" placeholder="Enter Price"></td>
+                            <td><input type="number" name="quantity" placeholder="Enter Quantity"></td>
                         </tr>
                     </tbody>
                 </table>
