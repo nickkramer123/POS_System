@@ -3,12 +3,13 @@
 <html lang="en">
 
 <head>
+    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add or Remove</title>
     <style>
         /*Styles here*/
-    .button {
+     /* .button {
         border: none;
         color: white;
         padding: 10.75px 24px;
@@ -19,30 +20,18 @@
         margin: 3px 1.5px;
         cursor: pointer;
         background-color: #555;
-    }
-
-
-
+    } */
+ 
     .table-container {
         display: flex;
-        gap: 40px; /* space between tables */
+        justify-content: center; /* centers horizontally */
+        margin-top: 20px;
     }
 
-    table {
-        border-collapse: collapse;
-        width: 300px;
+    .table-container table {
+        margin: 0 auto; /* keeps it centered if container is wider */
     }
-
-    th, td {
-        border: 1px solid black;
-        padding: 8px;
-    }
-    caption {
-        font-weight: bold;
-        color: #333;
-        padding: 5px;
-    }
-
+    
 
     </style>
 </head>
