@@ -20,9 +20,32 @@ def home(request):
     total = request.session.get('total', 0.0)
 
 
-    return render(request, 'app/home.html', {'items': items, 'transactions': transactions, 'transactionItems': transactionsItems, 'cart': cart, 'total': total})
+    return render(request, 
+                  'app/home.html', 
+                  {'items': items, 
+                   'transactions': transactions, 
+                   'transactionItems': transactionsItems, 
+                   'cart': cart, 
+                   'total': total})
 
+def tender(request):
 
+    cart = request.session.get('cart', {}) # get the cart from the session
+    
+    if not cart:
+        return redirect('home') # There's nothing to sell so do nothing
+    
+    item_ids = []
+    for item in cart.values():
+        item_ids.add(item)
+
+    
+    return render(request,
+                'app/close_report.html', 
+                {'transactions': transactions, 
+                'transactionItems': transactionsItems, 
+                'cart': cart, 
+                'total': total})
 def getID(request):
     query = request.GET.get('search_query', '')
     print("user searched for: ", query)
@@ -31,6 +54,7 @@ def getID(request):
 def add_to_cart(request):
     
     item_id = getID(request)
+<<<<<<< HEAD
     if not item_id: # for input validation
         return redirect('home')
 
@@ -38,11 +62,16 @@ def add_to_cart(request):
 
     item = find_item_by_id(item_id) #item object
     if not item: # for input validation
+=======
+    
+    try:
+        item = Items.objects.get(item_id=int(item_id))
+    except Items.DoesNotExist:
+>>>>>>> origin/sale-db-logic
         return redirect('home')
 
 
     cart = request.session.get('cart', {})
-    
     # Populate the cart in the session
     
     if str(item_id) in cart:
@@ -50,10 +79,18 @@ def add_to_cart(request):
     else:
         cart[str(item_id)] = {
             'item_id': item_id, 
+<<<<<<< HEAD
             'item' : item.name,
             'price': item.price,
             'quantity': 1
+=======
+            'name' : item.name,
+            'quantity': 1, 
+            'price': float(item.price)
+>>>>>>> origin/sale-db-logic
         }
+
+    print(cart)
     request.session['cart'] = cart # This updates the session with the new cart data
     print("Item added to cart:", item_id)
 
@@ -77,6 +114,7 @@ def add_to_cart(request):
 
 def clear_cart(request):
     request.session['cart'] = {}  # Clear the cart in the session
+<<<<<<< HEAD
     request.session['total'] = 0
 
     return redirect('home')  # Redirect to the template view after clearing the cart
@@ -175,3 +213,7 @@ def edit_price(request):
     return render(request, "app/edit_price.html", {'items': items})
 
 
+=======
+    request.session['total'] = 0.0  # Reset the total in the session
+    return redirect('home')  # Redirect to the template view after clearing the cart
+>>>>>>> origin/sale-db-logic

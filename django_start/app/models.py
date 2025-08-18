@@ -5,8 +5,8 @@ from django.db import models
 
 class Items(models.Model):
     # add fields
-    item_id = models.IntegerField(primary_key=True)
-    item = models.TextField()
+    item_id = models.AutoField(primary_key=True)
+    name = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
     quantity = models.IntegerField()
 
@@ -19,15 +19,15 @@ class Items(models.Model):
     
 class Transactions(models.Model):
     # add fields
-    id = models.IntegerField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    timestamp = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         db_table = 'transactions'  # The real table name in your DB
 
     def __str__(self):
-        return self.name
+        return f"Transaction {self.id}"
     
 
 
@@ -42,4 +42,4 @@ class TransactionItems(models.Model):
         db_table = 'transaction_items'  # The real table name in your DB
 
     def __str__(self):
-        return self.name
+        return f"Transaction {self.transaction_id} · Item {self.item_id}"

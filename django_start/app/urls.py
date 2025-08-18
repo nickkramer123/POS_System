@@ -23,6 +23,7 @@ urlpatterns = [
     path("", views.home, name="home"), # connects template function in views to template.html
     path("add_to_cart/", views.add_to_cart, name="add_to_cart"), # connects add_to_cart function in views to add_to_cart
     path("clear_cart/", views.clear_cart, name="clear_cart"), # connects clear_cart function in views to clear_cart
+<<<<<<< HEAD
 
     path("pos_admin/", views.pos_admin, name="pos_admin"), # connects pos_admin function in views to pos_admin.html
 
@@ -50,4 +51,7 @@ urlpatterns = [
 
 
     
+=======
+    path("tender/", views.tender, name="tender")
+>>>>>>> origin/sale-db-logic
 ]

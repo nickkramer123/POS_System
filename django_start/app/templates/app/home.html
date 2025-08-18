@@ -22,7 +22,15 @@
         margin: 3px 1.5px;
         cursor: pointer;
     }
+<<<<<<< HEAD
 
+=======
+    .button1 {background-color: #555;}
+    .button2 {background-color: #555;}
+    .button3 {background-color: #555;}
+    .button4 {background-color: #555;}
+    .button5 {background-color: #192;}
+>>>>>>> origin/sale-db-logic
 
 
 
@@ -60,7 +68,7 @@
                 {% for item in items %}
                 <tr>
                     <td>{{ item.item_id }}</td>
-                    <td>{{ item.item }}</td>
+                    <td>{{ item.name }}</td>
                     <td>${{ item.price }}</td>
                     <td>{{ item.quantity }}</td>
                 </tr>
@@ -93,9 +101,13 @@
                 {% for item in cart %}
                 <tr>
                     <td>{{ item.item_id }}</td>
-                    <td>{{ item.item }}</td>
+                    <td>{{ item.name }}</td>
                     <td>${{ item.price }}</td>
+<<<<<<< HEAD
                     <td>{{ item.quantity }}</td>
+=======
+                    <td>{{ item.quantity}}</td>
+>>>>>>> origin/sale-db-logic
                 </tr>
                 {% empty %}
                 <tr>
@@ -114,8 +126,16 @@
             {% csrf_token %}
             <button class="button" type="submit">X Clear</button>
         </form>
+<<<<<<< HEAD
         <button class="button" onclick="">✓ Tender</button>
 
+=======
+        <button class="button button4" onclick="">✓ Tender</button>
+        <form method="post" action="{% url 'tender' %}" style="display:inline;">
+            {% csrf_token %}
+            <button class="button button5" type="submit">Close</button>
+        </form>
+>>>>>>> origin/sale-db-logic
 
 
 
