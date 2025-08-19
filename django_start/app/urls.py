@@ -37,7 +37,8 @@ urlpatterns = [
 
 
 
-    path("edit_price/", views.edit_quantity, name="edit_price"), # connects edit_quantity function in views to edit_quantity
+    path("edit_price/", views.edit_price, name="edit_price"), # connects edit_quantity function in views to edit_quantity
+    path("update_price/", views.update_price, name="update_price"), # connects edit_quantity function in views to edit_quantity
 
 
 

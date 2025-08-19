@@ -1,0 +1,129 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add or Remove</title>
+    <style>
+    .table-container {
+        display: flex;
+        justify-content: center; /* centers horizontally */
+        margin-top: 20px;
+    }
+
+    .table-container table {
+        margin: 0 auto; /* keeps it centered if container is wider */
+    }
+
+    </style>
+</head>
+
+
+
+
+<header>
+    <h1>Edit Price</h1>
+<header>
+<body>
+
+    
+    <div class="table-container">
+    <div>
+                
+        
+        <a href="{% url 'pos_admin' %}" class="button">Back</a>
+
+        <table>
+            <caption>Inventory</caption>
+                <thead>
+                    <tr>
+                        <td>ID</td>
+                        <td>Item</td>
+                        <td>Price</td>
+                        <td>Quantity</td>
+                    </tr>
+                </thead>
+                    <tbody>
+                        {% for item in items %}
+                        <tr>
+                            <td>{{ item.item_id }}</td>
+                            <td>{{ item.name }}</td>
+                            <td>${{ item.price }}</td>
+                            <td>{{ item.quantity }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4">No items found</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <!--SEARCHBAR FOR edit inventory NEEDS AN UPDATE-->
+            <form method="get" action="{% url 'update_price' %}" onsubmit="return validateSearch()">
+                <input type="text" id="searchBar" name="search_query" placeholder="Enter ID: " onkeyup="SearchBar()">
+                <input type="text" id="searchBar" name="search_query_price" placeholder="Enter new price: ">
+                <input type="submit" value="Edit Price">
+            </form>
+
+
+</body>
+
+
+<script>
+     // copied from home
+    function SearchBar() {
+        // Declare variables
+        const input = document.getElementById('searchBar'); // the input from the seachbar
+        const filter = input.value.toUpperCase();
+        const table = document.querySelector("table"); // finds the first table element in the HTML
+        const tableRows = table.getElementsByTagName("tr"); // grabs all rows from the table, including header and item rows
+
+        // Loop through all list items, and hide those who don't match the search query
+        for (i = 1; i < tableRows.length; i++) {
+            const tableData = tableRows[i].getElementsByTagName("td")[0]
+            if (tableData) {
+                const txtValue = tableData.textContent || tableData.innerText; // gets the ID searched
+                if (txtValue.toUpperCase().indexOf(filter) > -1) { // checks for a match
+       //             return txtValue
+                    tableRows[i].style.display = ""; // show matching row
+                }
+                else {
+                    tableRows[i].style.display = "none"; // hide non-matching row
+
+                }
+            }
+        }
+    }
+
+
+
+    // TODO update for 2 search bars?
+    // validate the search with a popup, similar in logic to searchbar, copied from home
+    function validateSearch() {
+        const input = document.getElementById('searchBar').value.trim().toUpperCase();
+        const table = document.querySelector("table"); // finds the first table element in the HTML
+        const tableRows = table.getElementsByTagName("tr"); // grabs all rows from the table, including header and item rows
+
+        let validSearch = false
+        for (i = 1; i < tableRows.length; i++) {
+            const tableData = tableRows[i].getElementsByTagName("td")[0];
+            if (tableData) {
+                const idText = tableData.textContent.trim().toUpperCase();
+                if (idText === input) {
+                    validSearch = true;
+                    break;
+                }
+            }
+        }
+
+        if (!validSearch){
+            alert("Please enter a valid Item ID");
+            return false;
+        }
+        return true
+    }
+
+</script>

@@ -169,7 +169,7 @@ def update_quantity(request):
     if not item_id: # for input validation
         return redirect('edit_quantity')
 
-    item = find_item_by_id(item_id) #item object
+    item = Items.objects.get(item_id=item_id) #item object
     if not item: # for input validation
         return redirect('edit_quantity')
     
@@ -190,12 +190,31 @@ def update_quantity(request):
 
 
 
-
-
-
-
 def edit_price(request):   
     items = Items.objects.all()
     return render(request, "app/edit_price.html", {'items': items})
 
 
+def update_price(request):
+
+    # get item
+    item_id = getID(request)
+    if not item_id: # for input validation
+        return redirect('edit_price')
+
+    item = Items.objects.get(item_id=item_id) #item object
+    if not item: # for input validation
+        return redirect('edit_price')
+    
+    # get new price
+    new_price = request.GET.get('search_query_price', '')
+    if not new_price.isdigit():
+        return redirect('edit_price')
+
+
+    # add new price to item
+    item.price = float(new_price)
+    item.save()
+
+    
+    return redirect('edit_price')
