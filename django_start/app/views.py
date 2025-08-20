@@ -5,6 +5,11 @@ from django.http import JsonResponse
 from django.http import HttpResponse
 from .models import Items, Transactions, TransactionItems
 from backend.inventory import find_item_by_id
+from django.db import IntegrityError
+from decimal import Decimal, ROUND_HALF_UP
+
+
+
 
 def home(request):
     # get value from searchbar
@@ -46,6 +51,10 @@ def tender(request):
                 'transactionItems': transactionsItems, 
                 'cart': cart, 
                 'total': total})
+
+
+
+
 def getID(request):
     query = request.GET.get('search_query', '')
     print("user searched for: ", query)
@@ -140,17 +149,21 @@ def add_item(request):
     price = request.POST.get("price")
     quantity = request.POST.get("quantity")
 
+    id_error = False # to validate id errors and throw alert in js
+    try:
+        Items.objects.create(
+                item_id=item_id,
+                name=item_name,
+                price=price,
+                quantity=quantity
+            )
+    except ValueError:
+        id_error = True
+    except IntegrityError:
+        id_error = True
 
-    Items.objects.create(
-            item_id=item_id,
-            name=item_name,
-            price=price,
-            quantity=quantity
-        )
-    print(request.POST)
-
-
-    return redirect('add_or_remove')
+    items = Items.objects.all()
+    return render(request, "app/add_or_remove.html", {'items': items, 'id_error': id_error})
 
 
 
@@ -164,6 +177,11 @@ def edit_quantity(request):
 
 def update_quantity(request):
 
+    #setup for validation
+    items = Items.objects.all()
+    quantity_error = False
+
+
     # get item
     item_id = getID(request)
     if not item_id: # for input validation
@@ -176,7 +194,9 @@ def update_quantity(request):
     # get new quantity
     new_quantity = request.GET.get('search_query_quantity', '')
     if not new_quantity.isdigit():
-        return redirect('edit_quantity')
+        quantity_error = True
+        return render(request, "app/edit_quantity.html", {'items': items, 'quantity_error': quantity_error})
+
 
 
     # add new quantity to item
@@ -197,6 +217,11 @@ def edit_price(request):
 
 def update_price(request):
 
+
+    #setup for validation
+    items = Items.objects.all()
+    price_error = False
+
     # get item
     item_id = getID(request)
     if not item_id: # for input validation
@@ -208,12 +233,14 @@ def update_price(request):
     
     # get new price
     new_price = request.GET.get('search_query_price', '')
-    if not new_price.isdigit():
-        return redirect('edit_price')
-
+    try:
+        price = Decimal(new_price).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
+    except:
+        price_error = True
+        return render(request, "app/edit_price.html", {"items": items, "price_error": price_error})
 
     # add new price to item
-    item.price = float(new_price)
+    item.price = round(float(new_price), 2)
     item.save()
 
     

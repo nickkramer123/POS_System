@@ -127,3 +127,11 @@
     }
 
 </script>
+{% if price_error %}
+<script>
+    // call error message for add item
+    window.onload = function() {
+        alert("Please enter a valid price");
+    }
+</script>
+{% endif %}

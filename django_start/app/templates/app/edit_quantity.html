@@ -127,3 +127,11 @@
     }
 
 </script>
+{% if quantity_error %}
+<script>
+    // call error message for add item
+    window.onload = function() {
+        alert("Please enter a numeric quantity");
+    }
+</script>
+{% endif %}

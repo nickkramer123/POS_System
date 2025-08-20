@@ -163,11 +163,23 @@
         return true
     }
 
-
-
-
-
-
-
-
 </script>
+
+
+{% if id_error %}
+<script>
+    // call error message for add item
+    window.onload = function() {
+        alert("Please enter a numeric and unique Item ID");
+    }
+</script>
+{% endif %}
+
+
+
+
+
+
+
+
+
