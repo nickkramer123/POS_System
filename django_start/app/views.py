@@ -5,6 +5,11 @@ from django.http import JsonResponse
 from django.http import HttpResponse
 from .models import Items, Transactions, TransactionItems
 from backend.inventory import find_item_by_id
+from django.db import IntegrityError
+from decimal import Decimal, ROUND_HALF_UP
+
+
+
 
 def home(request):
     # get value from searchbar
@@ -20,7 +25,34 @@ def home(request):
     total = request.session.get('total', 0.0)
 
 
-    return render(request, 'app/home.html', {'items': items, 'transactions': transactions, 'transactionItems': transactionsItems, 'cart': cart, 'total': total})
+    return render(request, 
+                  'app/home.html', 
+                  {'items': items, 
+                   'transactions': transactions, 
+                   'transactionItems': transactionsItems, 
+                   'cart': cart, 
+                   'total': total})
+
+def tender(request):
+
+    cart = request.session.get('cart', {}) # get the cart from the session
+    
+    if not cart:
+        return redirect('home') # There's nothing to sell so do nothing
+    
+    item_ids = []
+    for item in cart.values():
+        item_ids.add(item)
+
+    
+    return render(request,
+                'app/close_report.html', 
+                {'transactions': transactions, 
+                'transactionItems': transactionsItems, 
+                'cart': cart, 
+                'total': total})
+
+
 
 
 def getID(request):
@@ -34,15 +66,12 @@ def add_to_cart(request):
     if not item_id: # for input validation
         return redirect('home')
 
-
-
     item = find_item_by_id(item_id) #item object
     if not item: # for input validation
         return redirect('home')
 
 
     cart = request.session.get('cart', {})
-    
     # Populate the cart in the session
     
     if str(item_id) in cart:
@@ -50,10 +79,12 @@ def add_to_cart(request):
     else:
         cart[str(item_id)] = {
             'item_id': item_id, 
-            'item' : item.name,
-            'price': item.price,
-            'quantity': 1
+            'name' : item.name,
+            'quantity': 1, 
+            'price': float(item.price)
         }
+
+    print(cart)
     request.session['cart'] = cart # This updates the session with the new cart data
     print("Item added to cart:", item_id)
 
@@ -77,9 +108,9 @@ def add_to_cart(request):
 
 def clear_cart(request):
     request.session['cart'] = {}  # Clear the cart in the session
-    request.session['total'] = 0
-
+    request.session['total'] = 0.0  # Reset the total in the session
     return redirect('home')  # Redirect to the template view after clearing the cart
+
 
 
 
@@ -110,26 +141,107 @@ def remove_item(request):
     return redirect('add_or_remove')
 
 
-
-
-
-
 def add_item(request):
 
     # Get values from the form submission
     item_id = request.POST.get("item_id")
-    item_name = request.POST.get("item")
+    item_name = request.POST.get("name")
     price = request.POST.get("price")
     quantity = request.POST.get("quantity")
 
+    id_error = False # to validate id errors and throw alert in js
+    try:
+        Items.objects.create(
+                item_id=item_id,
+                name=item_name,
+                price=price,
+                quantity=quantity
+            )
+    except ValueError:
+        id_error = True
+    except IntegrityError:
+        id_error = True
 
-    Items.objects.create(
-            item_id=item_id,
-            item=item_name,
-            price=price,
-            quantity=quantity
-        )
-
-    return redirect('add_or_remove')
+    items = Items.objects.all()
+    return render(request, "app/add_or_remove.html", {'items': items, 'id_error': id_error})
 
 
+
+
+
+
+def edit_quantity(request):   
+    items = Items.objects.all()
+    return render(request, "app/edit_quantity.html", {'items': items})
+
+
+def update_quantity(request):
+
+    #setup for validation
+    items = Items.objects.all()
+    quantity_error = False
+
+
+    # get item
+    item_id = getID(request)
+    if not item_id: # for input validation
+        return redirect('edit_quantity')
+
+    item = Items.objects.get(item_id=item_id) #item object
+    if not item: # for input validation
+        return redirect('edit_quantity')
+    
+    # get new quantity
+    new_quantity = request.GET.get('search_query_quantity', '')
+    if not new_quantity.isdigit():
+        quantity_error = True
+        return render(request, "app/edit_quantity.html", {'items': items, 'quantity_error': quantity_error})
+
+
+
+    # add new quantity to item
+    item.quantity = int(new_quantity)
+    item.save() 
+
+    
+    return redirect('edit_quantity')
+
+
+
+
+
+def edit_price(request):   
+    items = Items.objects.all()
+    return render(request, "app/edit_price.html", {'items': items})
+
+
+def update_price(request):
+
+
+    #setup for validation
+    items = Items.objects.all()
+    price_error = False
+
+    # get item
+    item_id = getID(request)
+    if not item_id: # for input validation
+        return redirect('edit_price')
+
+    item = Items.objects.get(item_id=item_id) #item object
+    if not item: # for input validation
+        return redirect('edit_price')
+    
+    # get new price
+    new_price = request.GET.get('search_query_price', '')
+    try:
+        price = Decimal(new_price).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
+    except:
+        price_error = True
+        return render(request, "app/edit_price.html", {"items": items, "price_error": price_error})
+
+    # add new price to item
+    item.price = round(float(new_price), 2)
+    item.save()
+
+    
+    return redirect('edit_price')

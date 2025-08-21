@@ -21,16 +21,32 @@
         font-size: 12px;
         margin: 3px 1.5px;
         cursor: pointer;
+
     }
 
 
 
 
-    caption {
+    .caption {
         font-weight: bold;
         padding: 5px;
     }
     
+    /* so tables are spaced*/
+    .table-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;       
+    gap: 40px;                     
+    }
+
+    /* so buttons are centered*/
+    .button-container {
+        display: flex;
+        justify-content: center;
+        gap: 5px;               
+        margin-bottom: 10x;
+    }
 
 
     </style>
@@ -43,7 +59,22 @@
             <a href="{% url 'pos_admin' %}" class="button">Admin</a>
         </div>
     </header>
-    
+    <div class="button-container">
+        <button class="button" onclick="">Add Item</button>
+        <button class="button" onclick="">Remove Item</button>
+        <form method="post" action="{% url 'clear_cart' %}" style="display:inline;">
+            {% csrf_token %}
+            <button class="button" type="submit">X Clear</button>
+        </form>
+        <button class="button button4" onclick="">✓ Tender</button>
+        <form method="post" action="{% url 'tender' %}" style="display:inline;">
+            {% csrf_token %}
+            <button class="button button5" type="submit">Close</button>
+        </form>
+
+
+
+    </div>
     <div class="table-container">
     <div>
         <table>
@@ -60,7 +91,7 @@
                 {% for item in items %}
                 <tr>
                     <td>{{ item.item_id }}</td>
-                    <td>{{ item.item }}</td>
+                    <td>{{ item.name }}</td>
                     <td>${{ item.price }}</td>
                     <td>{{ item.quantity }}</td>
                 </tr>
@@ -93,9 +124,10 @@
                 {% for item in cart %}
                 <tr>
                     <td>{{ item.item_id }}</td>
-                    <td>{{ item.item }}</td>
+                    <td>{{ item.name }}</td>
                     <td>${{ item.price }}</td>
-                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.quantity}}</td>
+
                 </tr>
                 {% empty %}
                 <tr>
@@ -107,19 +139,7 @@
         <p id="TotalPrice">Total: ${{ total }}</p>
         </div>
     </div>
-    <div>
-        <button class="button" onclick="">Add Item</button>
-        <button class="button" onclick="">Remove Item</button>
-        <form method="post" action="{% url 'clear_cart' %}" style="display:inline;">
-            {% csrf_token %}
-            <button class="button" type="submit">X Clear</button>
-        </form>
-        <button class="button" onclick="">✓ Tender</button>
-
-
-
-
-    </div>
+    
 
 
 
